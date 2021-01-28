@@ -16,3 +16,4 @@ class Subscription(db.Model):
     created_date = db.Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
     last_update = db.Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now(), server_onupdate=func.now())
     notifications = relationship('Notification')
+    active = db.Column(db.Boolean, nullable=False, default=False)

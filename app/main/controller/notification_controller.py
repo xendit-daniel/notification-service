@@ -2,7 +2,7 @@ from flask import request, abort
 from flask_restx import Resource, Namespace
 from app.main.schema.notification_schema import NotificationBaseSchema
 
-from app.main.service.notification_helper import save_new_notification, get_a_notification, updated_notification_status
+from app.main.service.notification_helper import save_new_notification, get_a_notification, update_notification_status
 
 api = Namespace('notification', description='notification related operations')
 
@@ -26,5 +26,5 @@ class Notification(Resource):
         if not notification:
             abort(404)
         else:
-            return updated_notification_status(patch_data, notification)
+            return update_notification_status(patch_data, notification)
 

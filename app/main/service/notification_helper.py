@@ -41,14 +41,19 @@ def send_notification(notification, subscription):
 def push_notification(notification):
     if notification.delivery_status == Notification.IN_PROGRESS:
         subscription = Subscription.query.get(notification.subscription_id)
-        job = q.enqueue_call(
-            send_notification, 
-            args=(notification, subscription), 
-            result_ttl=500,
-            retry=Retry(max=7, interval=[1, 2, 4, 8, 16, 32, 64]),
-            timeout='30s',
-            failure_ttl=300
-        )
+        if subscription.active:
+            job = q.enqueue_call(
+                send_notification, 
+                args=(notification, subscription), 
+                result_ttl=500,
+                retry=Retry(max=7, interval=[1, 2, 4, 8, 16, 32, 64]),
+                timeout='30s',
+                failure_ttl=300
+            )
+        else:
+            notification.delivery_status = Notification.CANCELLED
+            db.session.add(notification)
+            db.session.commit()
 
 def save_new_notification(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     new_notification = NotificationBaseSchema().load(data=data)
@@ -60,7 +65,7 @@ def get_a_notification(id: int) -> Dict[str, str]:
     notification = Notification.query.get(id)
     return notification
 
-def updated_notification_status(data: Dict[str, str], notification: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+def update_notification_status(data: Dict[str, str], notification: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     NotificationStatusSchema().load(data)
     for key in data:
         value = data[key]
