@@ -59,6 +59,7 @@ def save_new_notification(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     new_notification = NotificationBaseSchema().load(data=data)
     db.session.add(new_notification)
     db.session.commit()
+    push_notification(new_notification)
     return NotificationBaseSchema().dump(new_notification), 201
 
 def get_a_notification(id: int) -> Dict[str, str]:
