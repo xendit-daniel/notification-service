@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, abort
 from flask_restx import Resource, Namespace
 
 from app.main.service.subscription_helper import save_new_subscription, get_all_subscriptions, \

@@ -6,6 +6,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy import TIMESTAMP, func
 from sqlalchemy_utils import ChoiceType
 from app.main.model.subscription import Subscription
+from flask import abort
 import enum
 
 class Notification(db.Model):
@@ -32,6 +33,7 @@ class Notification(db.Model):
 
     @validates('subscription_id')
     def validate_subscription_id(self, key, id):
-        assert Subscription.query.get(id) != None
+        if Subscription.query.get(id) == None:
+            abort(422)
         return id
 

@@ -5,7 +5,7 @@ from flask import current_app
 from flask_testing import TestCase
 
 from manage import app
-from app.main.config import postgres_local_base
+from app.main.config import postgres_test_base, postgres_local_base
 
 
 class TestDevelopmentConfig(TestCase):
@@ -28,10 +28,10 @@ class TestTestingConfig(TestCase):
         return app
 
     def test_app_is_testing(self):
-        self.assertFalse(app.config['SECRET_KEY'] is 'my_precious')
+        self.assertFalse(app.config['SECRET_KEY'] == 'some secret key')
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == postgres_local_base
+            app.config['SQLALCHEMY_DATABASE_URI'] == postgres_test_base
         )
 
 

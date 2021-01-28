@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 postgres_local_base = os.environ['DATABASE_URL']
+postgres_test_base = os.environ['TEST_DATABASE_URL']
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'some secret key')
@@ -19,7 +20,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = postgres_local_base
+    SQLALCHEMY_DATABASE_URI = postgres_test_base
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
