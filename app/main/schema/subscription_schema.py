@@ -10,6 +10,7 @@ class SubscriptionBaseSchema(Schema):
     callback_url = fields.Url(allow_none=False, required=True)
     created_date = fields.DateTime(dump_only=True)
     last_update = fields.DateTime(dump_only=True)
+    active = fields.Boolean()
     
     class Meta:
         model = Subscription

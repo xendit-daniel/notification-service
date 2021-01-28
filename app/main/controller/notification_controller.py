@@ -2,7 +2,7 @@ from flask import request, abort
 from flask_restx import Resource, Namespace
 from app.main.schema.notification_schema import NotificationBaseSchema
 
-from app.main.service.notification_helper import save_new_notification, get_a_notification, update_notification_status
+from app.main.service.notification_helper import save_new_notification, get_a_notification, update_notification_status, get_all_notifications
 
 api = Namespace('notification', description='notification related operations')
 
@@ -11,6 +11,10 @@ class NotificationList(Resource):
     def post(self):
         post_data = request.json
         return save_new_notification(post_data)
+    
+    def get(self):
+        """List all subscriptions"""
+        return get_all_notifications()
 
 @api.route('/<id>')
 class Notification(Resource):

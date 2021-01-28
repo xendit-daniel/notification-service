@@ -65,6 +65,10 @@ def get_a_notification(id: int) -> Dict[str, str]:
     notification = Notification.query.get(id)
     return notification
 
+def get_all_notifications():
+    notifications = Notification.query.all()
+    return NotificationBaseSchema(many=True).dump(notifications), 200
+
 def update_notification_status(data: Dict[str, str], notification: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     NotificationStatusSchema().load(data)
     for key in data:
