@@ -6,7 +6,7 @@ load_dotenv()
 postgres_local_base = os.environ['DATABASE_URL']
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', '\xf0\xd7A\x8an\xf2\xb1\x8aB\xba\x12\xdb\x05G\x08k6\xd9\x1d\xb7\x1b\x1c/\xd2')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'some secret key')
     DEBUG = False
 
 
